@@ -9,7 +9,7 @@ describe('Todo App', () => {
     });
   });
 
-  it('should highlight a person when checked', () => {
+  it('should highlight a person on check', () => {
     cy.visit('/');
 
     cy.getByDataTestAttribute('person-list').within(() => {
@@ -26,6 +26,33 @@ describe('Todo App', () => {
       });
 
       person.should('not.have.class', 'person-active');
+    });
+  });
+
+  it('should select a person on click', () => {
+    cy.visit('/');
+
+    cy.getByDataTestAttribute('person-list').within(() => {
+      cy.get('li').eq(1).click();
+      cy.get('li').eq(1).should('have.class', 'person-selected');
+
+      cy.get('li').eq(2).click();
+      cy.get('li').eq(2).should('have.class', 'person-selected');
+      cy.get('li').eq(1).should('not.have.class', 'person-selected');
+    });
+  });
+
+  it('should not select a person on check', () => {
+    cy.visit('/');
+
+    cy.getByDataTestAttribute('person-list').within(() => {
+      const person = cy.get('li').first();
+
+      person.within(() => {
+        cy.get('[type="checkbox"]').check();
+      });
+
+      person.should('not.have.class', 'person-selected');
     });
   });
 });
