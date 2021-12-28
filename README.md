@@ -1,6 +1,6 @@
-# HyperApp Todo List
+# HyperApp Bigraphies App
 
-A simple todo list made with [HyperApp framework](https://github.com/jorgebucaran/hyperapp).
+A simple app made to showcase the [HyperApp framework](https://github.com/jorgebucaran/hyperapp).
 
 # Tech Stack
 
