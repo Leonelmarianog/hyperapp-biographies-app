@@ -14,3 +14,8 @@ export const toggleHighlight: (state: IState, index: number) => IState = (
     highlight,
   };
 };
+
+export const select: (state: IState, selected: number) => IState = (
+  state,
+  selected
+) => ({ ...state, selected });

@@ -1,6 +1,6 @@
 import { app } from 'hyperapp';
 import html from 'hyperlit';
-import { toggleHighlight } from './ui/actions/actions';
+import { toggleHighlight, select } from './ui/actions/actions';
 import IState from './ui/state/IState';
 import person from './ui/components/person';
 
@@ -13,6 +13,7 @@ const baseState: IState = {
     'Chelsey Dietrich',
   ],
   highlight: [false, true, false, false, false],
+  selected: null,
 };
 
 app({
@@ -24,7 +25,9 @@ app({
           person({
             name,
             highlight: state.highlight[index],
+            selected: state.selected === index,
             ontoggle: [toggleHighlight, index],
+            onselect: [select, index],
           })
         )}
       </ul>
