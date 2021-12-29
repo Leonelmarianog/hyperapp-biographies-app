@@ -1,3 +1,4 @@
+import { Action } from 'hyperapp';
 import html from 'hyperlit';
 import IState from '../state/IState';
 import { fromSpaceSeparatedToHyphenSeparated } from '../../utils/utils';
@@ -30,10 +31,10 @@ const person = ({
     <input
       type="checkbox"
       checked=${highlight}
-      onclick=${(_state: IState, event: Event) => {
+      onclick=${((_state, event) => {
         event.stopPropagation();
         return ontoggle;
-      }}
+      }) as Action<IState, Event>}
     />
     <p>${name}</p>
   </li>
