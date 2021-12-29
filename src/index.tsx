@@ -1,28 +1,33 @@
 import { app } from 'hyperapp';
 import html from 'hyperlit';
-import { ToggleHighlight, Select } from './ui/actions/actions';
+import { ToggleHighlight, Select, GotNames } from './ui/actions/actions';
 import IState from './ui/state/IState';
 import person from './ui/components/person';
+import { fetchJson } from './ui/effects/effects';
 
 const baseState: IState = {
-  names: [
-    'Leanne Graham',
-    'Ervin Howell',
-    'Clementine Bauch',
-    'Patricia Lebsack',
-    'Chelsey Dietrich',
-  ],
-  highlight: [false, true, false, false, false],
+  names: null,
+  highlight: [],
   selected: null,
   bio: null,
-  ids: [1, 2, 3, 4, 5],
+  ids: [],
 };
 
 app({
-  init: baseState,
+  init: [
+    baseState,
+    [
+      fetchJson,
+      {
+        url: `https://jsonplaceholder.typicode.com/users`,
+        action: GotNames,
+      },
+    ],
+  ],
   view: (state) => html`
     <main>
-      <ul class="person-list" data-cy="person-list">
+      ${state.names &&
+      html`<ul class="person-list" data-cy="person-list">
         ${state.names.map((name, index) =>
           person({
             name,
@@ -32,7 +37,7 @@ app({
             onselect: [Select, index],
           })
         )}
-      </ul>
+      </ul>`}
       ${state.bio &&
       state.bio.length > 0 &&
       html`<div data-cy="bio">${state.bio}</div>`}

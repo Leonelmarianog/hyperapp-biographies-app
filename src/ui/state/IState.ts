@@ -1,9 +1,9 @@
 interface IState {
-  names: string[];
-  highlight: boolean[];
+  names: null | string[];
+  highlight: [] | boolean[];
   selected: number | null;
   bio: null | string;
-  ids: number[];
+  ids: [] | number[];
 }
 
 export default IState;

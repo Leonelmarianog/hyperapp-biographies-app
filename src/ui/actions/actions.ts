@@ -20,6 +20,18 @@ export const GotBio: Action<IState, any> = (state, data) => ({
   bio: data.company.bs,
 });
 
+export const GotNames: Action<IState, any> = (state, data) => {
+  const names: string[] = data.slice(0, 5).map((person: any) => person.name);
+  const ids: number[] = data.slice(0, 5).map((person: any) => person.id);
+
+  return {
+    ...state,
+    ids,
+    names,
+    highlight: [false, false, false, false, false],
+  };
+};
+
 export const Select: Action<IState, number> = (state, selected) => [
   { ...state, selected },
   [

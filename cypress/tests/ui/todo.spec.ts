@@ -1,6 +1,12 @@
 import users from '../../fixtures/users';
 
 describe('Todo App', () => {
+  beforeEach(() => {
+    cy.intercept('get', 'https://jsonplaceholder.typicode.com/users', {
+      body: users,
+    });
+  });
+
   it('should display a list of persons', () => {
     cy.visit('/');
     cy.getByDataTestAttribute('person-list').should('be.visible');
