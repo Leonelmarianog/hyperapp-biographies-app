@@ -1,3 +1,5 @@
+import users from '../../fixtures/users';
+
 describe('Todo App', () => {
   it('should display a list of persons', () => {
     cy.visit('/');
@@ -54,5 +56,31 @@ describe('Todo App', () => {
 
       person.should('not.have.class', 'person-selected');
     });
+  });
+
+  it.only('should display the biography of a person on click', () => {
+    cy.visit('/');
+
+    cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/1', {
+      body: users[0],
+    }).as('getLeanneGrahamBio');
+
+    cy.getByDataTestAttribute('leanne-graham').click();
+    cy.wait('@getLeanneGrahamBio');
+    cy.getByDataTestAttribute('bio').should(
+      'have.text',
+      'harness real-time e-markets'
+    );
+
+    cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/2', {
+      body: users[1],
+    }).as('getErvinHowellBio');
+
+    cy.getByDataTestAttribute('ervin-howell').click();
+    cy.wait('@getErvinHowellBio');
+    cy.getByDataTestAttribute('bio').should(
+      'have.text',
+      'synergize scalable supply-chains'
+    );
   });
 });

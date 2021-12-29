@@ -1,3 +1,4 @@
+import { Action } from 'hyperapp';
 import html from 'hyperlit';
 import IState from '../state/IState';
 
@@ -6,7 +7,7 @@ interface IPersonProps {
   highlight: boolean;
   selected: boolean;
   ontoggle: (number | ((state: IState, index: number) => IState))[];
-  onselect: (number | ((state: IState, index: number) => IState))[];
+  onselect: (number | Action<IState, number>)[];
 }
 
 const person = ({
@@ -22,7 +23,7 @@ const person = ({
       'person-active': highlight,
       'person-selected': selected,
     }}
-    data-cy=${name}
+    data-cy=${name.replace(/\s+/g, '-').toLowerCase()}
     onclick=${onselect}
   >
     <input

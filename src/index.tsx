@@ -14,6 +14,8 @@ const baseState: IState = {
   ],
   highlight: [false, true, false, false, false],
   selected: null,
+  bio: null,
+  ids: [1, 2, 3, 4, 5],
 };
 
 app({
@@ -31,6 +33,9 @@ app({
           })
         )}
       </ul>
+      ${state.bio &&
+      state.bio.length > 0 &&
+      html`<div data-cy="bio">${state.bio}</div>`}
     </main>
   `,
   node: document.getElementById('root')!,
