@@ -1,10 +1,6 @@
-import { Action, Dispatch } from 'hyperapp';
+import { Action } from 'hyperapp';
 import IState from '../state/IState';
-
-type Effecter<S, P> = (
-  dispatch: Dispatch<S>,
-  payload: P
-) => void | Promise<void>;
+import { fetchJson } from '../effects/effects';
 
 export const ToggleHighlight: Action<IState, number> = (state, index) => {
   const highlight = [...state.highlight];
@@ -21,20 +17,6 @@ export const GotBio: Action<IState, any> = (state, data) => ({
   ...state,
   bio: data.company.bs,
 });
-
-interface IFetchJsonOptions {
-  url: string;
-  action: Action<IState, any>;
-}
-
-const fetchJson: Effecter<IState, IFetchJsonOptions> = async (
-  dispatch,
-  options
-) => {
-  const response = await fetch(options.url);
-  const data = await response.json();
-  dispatch(options.action, data);
-};
 
 export const Select: Action<IState, number> = (state, selected) => [
   { ...state, selected },
