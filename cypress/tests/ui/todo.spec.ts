@@ -58,7 +58,7 @@ describe('Todo App', () => {
     });
   });
 
-  it.only('should display the biography of a person on click', () => {
+  it('should display the biography of a person on click', () => {
     cy.visit('/');
 
     cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/1', {
