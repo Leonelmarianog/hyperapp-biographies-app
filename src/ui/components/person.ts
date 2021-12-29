@@ -1,6 +1,7 @@
 import { Action } from 'hyperapp';
 import html from 'hyperlit';
 import IState from '../state/IState';
+import { fromSpaceSeparatedToHyphenSeparated } from '../../utils/utils';
 
 interface IPersonProps {
   name: string;
@@ -23,7 +24,7 @@ const person = ({
       'person-active': highlight,
       'person-selected': selected,
     }}
-    data-cy=${name.replace(/\s+/g, '-').toLowerCase()}
+    data-cy=${fromSpaceSeparatedToHyphenSeparated(name)}
     onclick=${onselect}
   >
     <input
