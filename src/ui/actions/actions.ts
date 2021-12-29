@@ -6,7 +6,7 @@ type Effecter<S, P> = (
   payload: P
 ) => void | Promise<void>;
 
-export const toggleHighlight: Action<IState, number> = (state, index) => {
+export const ToggleHighlight: Action<IState, number> = (state, index) => {
   const highlight = [...state.highlight];
 
   highlight[index] = !highlight[index];
@@ -17,7 +17,7 @@ export const toggleHighlight: Action<IState, number> = (state, index) => {
   };
 };
 
-export const gotBio: Action<IState, any> = (state, data) => ({
+export const GotBio: Action<IState, any> = (state, data) => ({
   ...state,
   bio: data.company.bs,
 });
@@ -36,13 +36,13 @@ const fetchJson: Effecter<IState, IFetchJsonOptions> = async (
   dispatch(options.action, data);
 };
 
-export const select: Action<IState, number> = (state, selected) => [
+export const Select: Action<IState, number> = (state, selected) => [
   { ...state, selected },
   [
     fetchJson,
     {
       url: `https://jsonplaceholder.typicode.com/users/${state.ids[selected]}`,
-      action: gotBio,
+      action: GotBio,
     },
   ],
 ];
