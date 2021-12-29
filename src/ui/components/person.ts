@@ -6,7 +6,7 @@ interface IPersonProps {
   name: string;
   highlight: boolean;
   selected: boolean;
-  ontoggle: (number | ((state: IState, index: number) => IState))[];
+  ontoggle: (number | Action<IState, number>)[];
   onselect: (number | Action<IState, number>)[];
 }
 
@@ -29,7 +29,7 @@ const person = ({
     <input
       type="checkbox"
       checked=${highlight}
-      onclick=${(_: any, event: Event) => {
+      onclick=${(_state: IState, event: Event) => {
         event.stopPropagation();
         return ontoggle;
       }}

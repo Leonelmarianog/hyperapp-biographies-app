@@ -6,10 +6,7 @@ type Effecter<S, P> = (
   payload: P
 ) => void | Promise<void>;
 
-export const toggleHighlight: (state: IState, index: number) => IState = (
-  state,
-  index
-) => {
+export const toggleHighlight: Action<IState, number> = (state, index) => {
   const highlight = [...state.highlight];
 
   highlight[index] = !highlight[index];
@@ -20,7 +17,7 @@ export const toggleHighlight: (state: IState, index: number) => IState = (
   };
 };
 
-export const gotBio: (state: IState, data: any) => IState = (state, data) => ({
+export const gotBio: Action<IState, any> = (state, data) => ({
   ...state,
   bio: data.company.bs,
 });
