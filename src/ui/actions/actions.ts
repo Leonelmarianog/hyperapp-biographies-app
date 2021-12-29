@@ -2,6 +2,8 @@ import { Action } from 'hyperapp';
 import IState from '../state/IState';
 import { fetchJson } from '../effects/effects';
 
+export type ActionDescriptor<S, P> = (P | Action<S, P>)[];
+
 export const ToggleHighlight: Action<IState, number> = (state, index) => {
   const highlight = [...state.highlight];
 

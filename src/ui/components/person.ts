@@ -1,14 +1,14 @@
-import { Action } from 'hyperapp';
 import html from 'hyperlit';
 import IState from '../state/IState';
 import { fromSpaceSeparatedToHyphenSeparated } from '../../utils/utils';
+import { ActionDescriptor } from '../actions/actions';
 
 interface IPersonProps {
   name: string;
   highlight: boolean;
   selected: boolean;
-  ontoggle: (number | Action<IState, number>)[];
-  onselect: (number | Action<IState, number>)[];
+  ontoggle: ActionDescriptor<IState, number>;
+  onselect: ActionDescriptor<IState, number>;
 }
 
 const person = ({
