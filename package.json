@@ -1,7 +1,7 @@
 {
   "name": "hyperapp-biographies-app",
   "version": "1.0.0",
-  "main": "index.js",
+  "source": "src/index.html",
   "license": "MIT",
   "scripts": {
     "start": "parcel src/index.html -p 8081",
