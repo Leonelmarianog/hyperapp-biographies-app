@@ -1,4 +1,4 @@
-import { Action, Dispatch } from 'hyperapp';
+import { Action, Dispatch, Effect } from 'hyperapp';
 import IState from '../state/IState';
 
 type Effecter<S, P> = (
@@ -11,8 +11,7 @@ interface IFetchJsonOptions {
   action: Action<IState, any>;
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export const fetchJson: Effecter<IState, IFetchJsonOptions> = async (
+const fetchJson: Effecter<IState, IFetchJsonOptions> = async (
   dispatch,
   options
 ) => {
@@ -20,3 +19,13 @@ export const fetchJson: Effecter<IState, IFetchJsonOptions> = async (
   const data = await response.json();
   dispatch(options.action, data);
 };
+
+// Effect Creator
+// eslint-disable-next-line import/prefer-default-export
+export const JsonFetcher: (
+  url: string,
+  action: Action<IState>
+) => Effect<IState, IFetchJsonOptions> = (url, action) => [
+  fetchJson,
+  { url, action },
+];

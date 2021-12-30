@@ -9,7 +9,7 @@ import {
 } from './ui/actions/actions';
 import IState from './ui/state/IState';
 import person from './ui/components/person';
-import { fetchJson } from './ui/effects/effects';
+import { JsonFetcher } from './ui/effects/effects';
 import { onKeydown } from './ui/subscriptions/subscriptions';
 
 const baseState: IState = {
@@ -23,13 +23,7 @@ const baseState: IState = {
 app({
   init: [
     baseState,
-    [
-      fetchJson,
-      {
-        url: `https://jsonplaceholder.typicode.com/users`,
-        action: GotNames,
-      },
-    ],
+    JsonFetcher('https://jsonplaceholder.typicode.com/users', GotNames),
   ],
   view: (state) => html`
     <main>

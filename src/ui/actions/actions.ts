@@ -1,6 +1,6 @@
 import { Action } from 'hyperapp';
 import IState from '../state/IState';
-import { fetchJson } from '../effects/effects';
+import { JsonFetcher } from '../effects/effects';
 
 export type ActionDescriptor<S, P> = (P | Action<S, P>)[];
 
@@ -34,13 +34,10 @@ export const GotNames: Action<IState, any> = (state, data) => {
 
 export const Select: Action<IState, number> = (state, selected) => [
   { ...state, selected },
-  [
-    fetchJson,
-    {
-      url: `https://jsonplaceholder.typicode.com/users/${state.ids[selected]}`,
-      action: GotBio,
-    },
-  ],
+  JsonFetcher(
+    `https://jsonplaceholder.typicode.com/users/${state.ids[selected]}`,
+    GotBio
+  ),
 ];
 
 export const SelectUp: Action<IState> = (state) => {
