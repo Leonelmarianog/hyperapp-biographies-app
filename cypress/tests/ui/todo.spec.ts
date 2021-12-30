@@ -89,4 +89,82 @@ describe('Todo App', () => {
       'synergize scalable supply-chains'
     );
   });
+
+  it('should allow users to select persons by pressing up and down arrow keys', () => {
+    cy.visit('/');
+
+    cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/1', {
+      body: users[0],
+    }).as('getLeanneGrahamBio');
+    cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/2', {
+      body: users[1],
+    }).as('getErvinHowellBio');
+    cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/3', {
+      body: users[2],
+    }).as('getClementineBauchBio');
+
+    cy.getByDataTestAttribute('leanne-graham').click();
+    cy.wait('@getLeanneGrahamBio');
+    cy.getByDataTestAttribute('leanne-graham').should(
+      'have.class',
+      'person-selected'
+    );
+
+    cy.get('body').trigger('keydown', { key: 'ArrowDown' });
+    cy.wait('@getErvinHowellBio');
+    cy.getByDataTestAttribute('leanne-graham').should(
+      'not.have.class',
+      'person-selected'
+    );
+    cy.getByDataTestAttribute('ervin-howell').should(
+      'have.class',
+      'person-selected'
+    );
+
+    cy.get('body').trigger('keydown', { key: 'ArrowDown' });
+    cy.wait('@getClementineBauchBio');
+    cy.getByDataTestAttribute('ervin-howell').should(
+      'not.have.class',
+      'person-selected'
+    );
+    cy.getByDataTestAttribute('clementine-bauch').should(
+      'have.class',
+      'person-selected'
+    );
+
+    cy.get('body').trigger('keydown', { key: 'ArrowUp' });
+    cy.wait('@getErvinHowellBio');
+    cy.getByDataTestAttribute('clementine-bauch').should(
+      'not.have.class',
+      'person-selected'
+    );
+    cy.getByDataTestAttribute('ervin-howell').should(
+      'have.class',
+      'person-selected'
+    );
+
+    cy.get('body').trigger('keydown', { key: 'ArrowUp' });
+    cy.wait('@getLeanneGrahamBio');
+    cy.getByDataTestAttribute('ervin-howell').should(
+      'not.have.class',
+      'person-selected'
+    );
+    cy.getByDataTestAttribute('leanne-graham').should(
+      'have.class',
+      'person-selected'
+    );
+  });
+
+  it('should not select any person on keydown if there was no person selected', () => {
+    cy.visit('/');
+
+    cy.get('body').trigger('keydown', { key: 'ArrowDown' });
+    cy.get('body').trigger('keydown', { key: 'ArrowUp' });
+
+    cy.getByDataTestAttribute('person-list').within(() => {
+      cy.get('li').each((person) => {
+        expect(person).to.not.have.class('person-selected');
+      });
+    });
+  });
 });

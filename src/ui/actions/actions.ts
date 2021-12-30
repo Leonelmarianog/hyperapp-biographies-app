@@ -42,3 +42,19 @@ export const Select: Action<IState, number> = (state, selected) => [
     },
   ],
 ];
+
+export const SelectUp: Action<IState> = (state) => {
+  if (state.selected === null) {
+    return state;
+  }
+
+  return [Select, state.selected - 1];
+};
+
+export const SelectDown: Action<IState> = (state) => {
+  if (state.selected === null) {
+    return state;
+  }
+
+  return [Select, state.selected + 1];
+};

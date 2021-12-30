@@ -1,9 +1,16 @@
 import { app } from 'hyperapp';
 import html from 'hyperlit';
-import { ToggleHighlight, Select, GotNames } from './ui/actions/actions';
+import {
+  ToggleHighlight,
+  Select,
+  GotNames,
+  SelectUp,
+  SelectDown,
+} from './ui/actions/actions';
 import IState from './ui/state/IState';
 import person from './ui/components/person';
 import { fetchJson } from './ui/effects/effects';
+import { onKeydown } from './ui/subscriptions/subscriptions';
 
 const baseState: IState = {
   names: null,
@@ -43,5 +50,13 @@ app({
       html`<div data-cy="bio">${state.bio}</div>`}
     </main>
   `,
+  subscriptions: (state) => [
+    state.selected !== null &&
+      state.selected > 0 &&
+      onKeydown('ArrowUp', SelectUp),
+    state.selected !== null &&
+      state.selected < state.ids.length - 1 &&
+      onKeydown('ArrowDown', SelectDown),
+  ],
   node: document.getElementById('root')!,
 });
