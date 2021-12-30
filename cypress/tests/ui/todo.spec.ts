@@ -4,7 +4,15 @@ describe('Todo App', () => {
   beforeEach(() => {
     cy.intercept('get', 'https://jsonplaceholder.typicode.com/users', {
       body: users,
-    });
+    }).as('getNames');
+  });
+
+  it('should display a loading message before fetching initial data', () => {
+    cy.visit('/');
+
+    cy.getByDataTestAttribute('loading-names-helper').should('be.visible');
+    cy.wait('@getNames');
+    cy.getByDataTestAttribute('loading-names-helper').should('not.exist');
   });
 
   it('should display a list of persons', () => {
@@ -62,6 +70,23 @@ describe('Todo App', () => {
 
       person.should('not.have.class', 'person-selected');
     });
+  });
+
+  it.only('should display a loading message before fetching biography data', () => {
+    cy.visit('/');
+
+    cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/1', {
+      body: users[0],
+    }).as('getLeanneGrahamBio');
+
+    cy.getByDataTestAttribute('leanne-graham').click();
+    cy.getByDataTestAttribute('loading-bio-helper').should('be.visible');
+    cy.wait('@getLeanneGrahamBio');
+    cy.getByDataTestAttribute('bio').should(
+      'have.text',
+      'harness real-time e-markets'
+    );
+    cy.getByDataTestAttribute('loading-bio-helper').should('not.exist');
   });
 
   it('should display the biography of a person on click', () => {

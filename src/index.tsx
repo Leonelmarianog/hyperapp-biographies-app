@@ -18,6 +18,10 @@ const baseState: IState = {
   selected: null,
   bio: null,
   ids: [],
+  loading: {
+    names: true,
+    bio: false,
+  },
 };
 
 app({
@@ -25,32 +29,26 @@ app({
     baseState,
     JsonFetcher('https://jsonplaceholder.typicode.com/users', GotNames),
   ],
-  view: (state) => {
-    const gotBio =
-      state.bio !== null &&
-      typeof state.bio === 'string' &&
-      state.bio.length > 0;
-
-    const gotNames = state.names !== null && Array.isArray(state.names);
-
-    return html`
-      <main>
-        ${gotNames &&
-        html`<ul class="person-list" data-cy="person-list">
-          ${state.names!.map((name, index) =>
-            person({
-              name,
-              highlight: state.highlight[index],
-              selected: state.selected === index,
-              ontoggle: [ToggleHighlight, index],
-              onselect: [Select, index],
-            })
-          )}
-        </ul>`}
-        ${gotBio && html`<div data-cy="bio">${state.bio}</div>`}
-      </main>
-    `;
-  },
+  view: (state) => html`
+    <main>
+      ${state.loading.names
+        ? html`<div data-cy="loading-names-helper">Loading...</div>`
+        : html`<ul class="person-list" data-cy="person-list">
+            ${state.names!.map((name, index) =>
+              person({
+                name,
+                highlight: state.highlight[index],
+                selected: state.selected === index,
+                ontoggle: [ToggleHighlight, index],
+                onselect: [Select, index],
+              })
+            )}
+          </ul>`}
+      ${state.loading.bio
+        ? html`<div data-cy="loading-bio-helper">Loading bio...</div>`
+        : html`<div data-cy="bio">${state.bio}</div>`}
+    </main>
+  `,
   subscriptions: (state) => {
     const topmostPersonNotSelected =
       state.selected !== null && state.selected > 0;

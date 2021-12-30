@@ -4,6 +4,7 @@ interface IState {
   selected: number | null;
   bio: null | string;
   ids: [] | number[];
+  loading: Record<string, boolean>;
 }
 
 export default IState;
