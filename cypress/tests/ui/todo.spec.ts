@@ -1,9 +1,12 @@
 import users from '../../fixtures/users';
 
+const RESPONSE_DELAY_IN_MS = 1000;
+
 describe('Todo App', () => {
   beforeEach(() => {
     cy.intercept('get', 'https://jsonplaceholder.typicode.com/users', {
       body: users,
+      delay: RESPONSE_DELAY_IN_MS,
     }).as('getNames');
   });
 
@@ -72,11 +75,12 @@ describe('Todo App', () => {
     });
   });
 
-  it.only('should display a loading message before fetching biography data', () => {
+  it('should display a loading message before fetching biography data', () => {
     cy.visit('/');
 
     cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/1', {
       body: users[0],
+      delay: RESPONSE_DELAY_IN_MS,
     }).as('getLeanneGrahamBio');
 
     cy.getByDataTestAttribute('leanne-graham').click();
@@ -94,6 +98,7 @@ describe('Todo App', () => {
 
     cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/1', {
       body: users[0],
+      delay: RESPONSE_DELAY_IN_MS,
     }).as('getLeanneGrahamBio');
 
     cy.getByDataTestAttribute('leanne-graham').click();
@@ -105,6 +110,7 @@ describe('Todo App', () => {
 
     cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/2', {
       body: users[1],
+      delay: RESPONSE_DELAY_IN_MS,
     }).as('getErvinHowellBio');
 
     cy.getByDataTestAttribute('ervin-howell').click();
@@ -120,12 +126,15 @@ describe('Todo App', () => {
 
     cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/1', {
       body: users[0],
+      delay: RESPONSE_DELAY_IN_MS,
     }).as('getLeanneGrahamBio');
     cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/2', {
       body: users[1],
+      delay: RESPONSE_DELAY_IN_MS,
     }).as('getErvinHowellBio');
     cy.intercept('get', 'https://jsonplaceholder.typicode.com/users/3', {
       body: users[2],
+      delay: RESPONSE_DELAY_IN_MS,
     }).as('getClementineBauchBio');
 
     cy.getByDataTestAttribute('leanne-graham').click();
