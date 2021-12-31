@@ -1,5 +1,7 @@
 # HyperApp Bigraphies App
 
+![cypress-tests](https://github.com/Leonelmarianog/hyperapp-biographies-app/actions/workflows/cypress-tests.yml/badge.svg)
+
 A simple app made to showcase the [HyperApp framework](https://github.com/jorgebucaran/hyperapp).
 
 # Tech Stack
@@ -17,29 +19,35 @@ A simple app made to showcase the [HyperApp framework](https://github.com/jorgeb
 
 **NOTE** : `This project was made using Node 17.3.0`
 
-1. Install project dependencies
+1. Installation
 
-```
-npm install
+```bash
+npm install # Install dependencies
 ```
 
-2. Run project locally
+2. Running in development mode
 
+```bash
+npm run dev # Runs app locally on localhost:8080 in development mode
 ```
-npm start # runs app locally on localhost:8081
+
+3. Running in production mode
+
+```bash
+npm run build # Create project build
+npm start # Runs app locally on localhost:8080 in production mode
 ```
 
 # Tests
 
-```
+```bash
 npm run test:ui:dev # Run UI test on a browser
-npm run test:ui:headless # Run UI test on a console
+npm run test:ui # Run UI test in headless mode
 ```
 
 # Other commands
 
-```
-npm run build # create app build
+```bash
 npm run prettier:check # check for formatting errors
 npm run prettier:fix # fix formatting errors
 npm run eslint:check # check for linting errors
